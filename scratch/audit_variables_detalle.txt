@@ -1,0 +1,200 @@
+TOTAL ROWS: 100
+TOTAL COLS: 48
+DISTRIBUTION tipo_agente:
+tipo_agente
+humano    50
+ia        50
+
+=== VARIABLES AUDIT ===
+
+--- id ---
+Tipo: identificador | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 100
+Detalle: Validos: 100, Missing: 0 (0.0%)
+
+--- archivo ---
+Tipo: texto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 100
+Detalle: Validos: 100, Missing: 0 (0.0%)
+
+--- tipo_agente ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: {'humano': np.int64(50)} | IA: {'ia': np.int64(50)}
+
+--- duracion_segundos ---
+Tipo: duracion (continuo) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 98
+Detalle: H (n=50): med=236.66, mdn=168.00, std=200.78 | IA (n=50): med=217.92, mdn=148.48, std=151.28
+
+--- num_palabras ---
+Tipo: conteo discreto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 94
+Detalle: H (n=50): med=525.72, mdn=336.50, std=500.21 | IA (n=50): med=458.42, mdn=295.50, std=374.60
+
+--- contactabilidad ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 49/50 (98.0%) | IA: 46/50 (92.0%) | Dif: +6.0 pp
+
+--- oferta_pago ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 26/50 (52.0%) | IA: 37/50 (74.0%) | Dif: -22.0 pp
+
+--- aceptacion_pago ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 1/50 (2.0%) | IA: 1/50 (2.0%) | Dif: +0.0 pp
+
+--- acuerdo_pago ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 7/50 (14.0%) | IA: 2/50 (4.0%) | Dif: +10.0 pp
+
+--- resultado_final ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 6
+Detalle: H: {'contactado_sin_propuesta': np.int64(18), 'negociacion_sin_acuerdo': np.int64(15), 'acuerdo_pago': np.int64(7), 'propuesta_rechazada': np.int64(6), 'dificultad_sin_acuerdo': np.int64(3), 'no_contactado': np.int64(1)} | IA: {'negociacion_sin_acuerdo': np.int64(26), 'contactado_sin_propuesta': np.int64(9), 'propuesta_rechazada': np.int64(5), 'no_contactado': np.int64(4), 'dificultad_sin_acuerdo': np.int64(4), 'acuerdo_pago': np.int64(2)}
+
+--- negociacion ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 24/50 (48.0%) | IA: 35/50 (70.0%) | Dif: -22.0 pp
+
+--- num_propuestas_pago ---
+Tipo: conteo discreto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 3
+Detalle: H (n=50): med=1.00, mdn=1.00, std=0.99 | IA (n=50): med=1.44, mdn=2.00, std=0.88
+
+--- tiene_objecion ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 8/50 (16.0%) | IA: 5/50 (10.0%) | Dif: +6.0 pp
+
+--- num_objeciones ---
+Tipo: conteo discreto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H (n=50): med=0.16, mdn=0.00, std=0.37 | IA (n=50): med=0.10, mdn=0.00, std=0.30
+
+--- tipo_objecion ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 8
+Detalle: H: {'ninguna': np.int64(42), 'desempleo': np.int64(3), 'economica': np.int64(2), 'desacuerdo_deuda': np.int64(1), 'otra': np.int64(1), 'fecha_pago': np.int64(1)} | IA: {'ninguna': np.int64(45), 'economica': np.int64(2), 'desempleo': np.int64(1), 'monto': np.int64(1), 'falta_recursos': np.int64(1)}
+
+--- manejo_objecion ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 5/50 (10.0%) | IA: 5/50 (10.0%) | Dif: +0.0 pp
+
+--- objecion_resuelta ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 1
+Detalle: H: 0/50 (0.0%) | IA: 0/50 (0.0%) | Dif: +0.0 pp
+
+--- monto_deuda ---
+Tipo: monto (continuo) | Validos: 22/100 | Missing: 78 (78.0%) | Unicos: 23
+Detalle: H (n=6): med=204089131.67, mdn=882143.00, std=497693033.43 | IA (n=16): med=4319375.00, mdn=2055000.00, std=5961368.38
+
+--- monto_propuesto ---
+Tipo: monto (continuo) | Validos: 17/100 | Missing: 83 (83.0%) | Unicos: 16
+Detalle: H (n=3): med=585092.67, mdn=250000.00, std=805455.57 | IA (n=14): med=2140000.00, mdn=525000.00, std=4137009.32
+
+--- monto_acordado ---
+Tipo: monto (continuo) | Validos: 2/100 | Missing: 98 (98.0%) | Unicos: 3
+Detalle: H (n=0): med=nan, mdn=nan, std=nan | IA (n=2): med=540000.00, mdn=540000.00, std=410121.93
+
+--- numero_cuotas ---
+Tipo: conteo discreto | Validos: 29/100 | Missing: 71 (71.0%) | Unicos: 8
+Detalle: H (n=16): med=6.19, mdn=3.00, std=6.32 | IA (n=13): med=4.31, mdn=2.00, std=4.82
+
+--- monto_cuota ---
+Tipo: monto (continuo) | Validos: 20/100 | Missing: 80 (80.0%) | Unicos: 21
+Detalle: H (n=6): med=534333.33, mdn=375000.00, std=510753.82 | IA (n=14): med=2418571.43, mdn=1075000.00, std=3657079.24
+
+--- inconsistencia_matematica_acuerdo ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 2/50 (4.0%) | IA: 5/50 (10.0%) | Dif: -6.0 pp
+
+--- tiene_descuento ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 22/50 (44.0%) | IA: 35/50 (70.0%) | Dif: -26.0 pp
+
+--- monto_descuento ---
+Tipo: monto (continuo) | Validos: 2/100 | Missing: 98 (98.0%) | Unicos: 3
+Detalle: H (n=1): med=100000.00, mdn=100000.00, std=nan | IA (n=1): med=490000.00, mdn=490000.00, std=nan
+
+--- fecha_compromiso ---
+Tipo: fecha / expresion temporal | Validos: 73/100 | Missing: 27 (27.0%) | Unicos: 30
+Detalle: Validos: 73, Missing: 27 (27.0%)
+
+--- num_preguntas_agente ---
+Tipo: conteo discreto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 39
+Detalle: H (n=50): med=15.46, mdn=14.00, std=13.14 | IA (n=50): med=13.36, mdn=8.00, std=14.12
+
+--- tipo_respuesta_cliente ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 6
+Detalle: H: {'neutra': np.int64(41), 'dificultad': np.int64(4), 'negativa_rechazo': np.int64(2), 'afirmativa': np.int64(1), 'indecisa': np.int64(1), 'evasiva': np.int64(1)} | IA: {'neutra': np.int64(46), 'dificultad': np.int64(3), 'negativa_rechazo': np.int64(1)}
+
+--- intencion_pago ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 12/50 (24.0%) | IA: 1/50 (2.0%) | Dif: +22.0 pp
+
+--- dificultad_pago ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 4/50 (8.0%) | IA: 4/50 (8.0%) | Dif: +0.0 pp
+
+--- confianza_nlp ---
+Tipo: score continuo (0-1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 6
+Detalle: H (n=50): med=0.79, mdn=0.80, std=0.08 | IA (n=50): med=0.80, mdn=0.80, std=0.07
+
+--- control_calidad ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: {'ok': np.int64(32), 'revisar': np.int64(18)} | IA: {'ok': np.int64(37), 'revisar': np.int64(13)}
+
+--- requiere_revision ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 18/50 (36.0%) | IA: 13/50 (26.0%) | Dif: +10.0 pp
+
+--- evidencia_contactabilidad ---
+Tipo: texto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 96
+Detalle: Validos: 100, Missing: 0 (0.0%)
+
+--- evidencia_oferta ---
+Tipo: texto | Validos: 63/100 | Missing: 37 (37.0%) | Unicos: 2
+Detalle: Validos: 63, Missing: 37 (37.0%)
+
+--- evidencia_aceptacion ---
+Tipo: texto | Validos: 2/100 | Missing: 98 (98.0%) | Unicos: 2
+Detalle: Validos: 2, Missing: 98 (98.0%)
+
+--- evidencia_acuerdo ---
+Tipo: texto | Validos: 9/100 | Missing: 91 (91.0%) | Unicos: 10
+Detalle: Validos: 9, Missing: 91 (91.0%)
+
+--- evidencia_objecion ---
+Tipo: texto | Validos: 13/100 | Missing: 87 (87.0%) | Unicos: 11
+Detalle: Validos: 13, Missing: 87 (87.0%)
+
+--- evidencia_negociacion ---
+Tipo: texto | Validos: 59/100 | Missing: 41 (41.0%) | Unicos: 2
+Detalle: Validos: 59, Missing: 41 (41.0%)
+
+--- acuerdo_pago_candidato ---
+Tipo: binaria (0/1) | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 2
+Detalle: H: 7/50 (14.0%) | IA: 2/50 (4.0%) | Dif: +10.0 pp
+
+--- acuerdo_pago_validado ---
+Tipo: columna de validacion humana (en dataset_final vacia) | Validos: 0/100 | Missing: 100 (100.0%) | Unicos: 1
+Detalle: Validos: 0, Missing: 100 (100.0%)
+
+--- objecion_candidato ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 8
+Detalle: H: {'ninguna': np.int64(42), 'desempleo': np.int64(3), 'economica': np.int64(2), 'desacuerdo_deuda': np.int64(1), 'otra': np.int64(1), 'fecha_pago': np.int64(1)} | IA: {'ninguna': np.int64(45), 'economica': np.int64(2), 'desempleo': np.int64(1), 'monto': np.int64(1), 'falta_recursos': np.int64(1)}
+
+--- objecion_validada ---
+Tipo: columna de validacion humana (en dataset_final vacia) | Validos: 0/100 | Missing: 100 (100.0%) | Unicos: 1
+Detalle: Validos: 0, Missing: 100 (100.0%)
+
+--- resultado_final_candidato ---
+Tipo: categorica | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 6
+Detalle: H: {'contactado_sin_propuesta': np.int64(18), 'negociacion_sin_acuerdo': np.int64(15), 'acuerdo_pago': np.int64(7), 'propuesta_rechazada': np.int64(6), 'dificultad_sin_acuerdo': np.int64(3), 'no_contactado': np.int64(1)} | IA: {'negociacion_sin_acuerdo': np.int64(26), 'contactado_sin_propuesta': np.int64(9), 'propuesta_rechazada': np.int64(5), 'no_contactado': np.int64(4), 'dificultad_sin_acuerdo': np.int64(4), 'acuerdo_pago': np.int64(2)}
+
+--- resultado_final_validado ---
+Tipo: columna de validacion humana (en dataset_final vacia) | Validos: 0/100 | Missing: 100 (100.0%) | Unicos: 1
+Detalle: Validos: 0, Missing: 100 (100.0%)
+
+--- transcripcion_original ---
+Tipo: texto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 100
+Detalle: Validos: 100, Missing: 0 (0.0%)
+
+--- transcripcion_limpia ---
+Tipo: texto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 100
+Detalle: Validos: 100, Missing: 0 (0.0%)
+
+--- motivo_control ---
+Tipo: texto | Validos: 100/100 | Missing: 0 (0.0%) | Unicos: 6
+Detalle: Validos: 100, Missing: 0 (0.0%)

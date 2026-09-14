@@ -1,0 +1,139 @@
+Prueba Técnica — Data Scientist / Data Analyst Junior | Creceré AI
+Creceré AI · Prueba técnica
+Data Scientist / Data Analyst Junior
+Queremos ver cómo conviertes información cruda en una respuesta analítica clara, cuantitativa y accionable.
+No buscamos una metodología específica: buscamos criterio, rigor, simplicidad y calidad de ejecución.
+≈100 audios
+50 humanos + 50 IA
+2 páginas
+Máximo del reporte final
+2 entregables
+HTML + repositorio público
+Carpeta de trabajo
+Contiene los audios humanos y de IA para desarrollar el ejercicio.
+Abrir carpeta
+Deadline de entrega
+Martes, 15 de septiembre de 2026
+Contexto del reto
+Te vamos a entregar una muestra de
+50 audios de gestiones humanas y 50 audios de gestiones realizadas por IA
+,
+provenientes de distintas campañas y momentos de gestión. A partir de ahí, el análisis es libre.
+Queremos ver de qué eres capaz cuando recibes información cruda y un problema abierto: cómo construyes datos,
+qué preguntas haces, cómo analizas, qué código produces y, sobre todo,
+cómo razonas
+.
+Hoy, en un mundo con IA,
+escribir código por escribir código dejó de ser una virtud
+. Claro que esperamos
+código limpio, simple, legible y sin spaghetti; pero eso es apenas el piso. Lo que más nos importa es entender si sabes
+estructurar un problema, priorizar preguntas, tomar decisiones analíticas sensatas y explicar tu lógica de forma ordenada.
+También queremos que esa estructura mental se refleje en el resultado: un texto corto, preciso y fácil de entender.
+Si necesitas muchas páginas para explicar una idea sencilla, todavía no la has simplificado lo suficiente.
+Y una última cosa: hoy, con las herramientas que existen, entregar un trabajo
+FEO
+, descuidado o chambón no tiene sentido.
+Esperamos un resultado pulido, consistente y listo para mostrar. La estética no reemplaza el análisis, pero sí demuestra cuidado, criterio y capacidad de terminar bien el trabajo.
+1
+Preguntas, hipótesis y decisiones analíticas
+Antes de mostrar resultados, registra de forma breve cómo estructuraste el problema.
+¿Qué quieres entender?
+Define las preguntas que guían el análisis.
+¿Qué variables construiste?
+Explica qué información extrajiste de los audios y por qué.
+¿Qué hipótesis contrastaste?
+Declara qué diferencias esperabas encontrar entre humanos e IA.
+¿Cómo las probaste?
+Resume los métodos utilizados y las decisiones principales.
+2
+Construcción de datos y estadística descriptiva
+Construye una base analítica a partir de los audios y compara el desempeño de Humanos vs. IA.
+Contactabilidad
+Efectividad
+Negociación
+Compromiso de pago
+Duración
+Objeciones
+Manejo de objeciones
+Resultado final
+Claridad
+Importante:
+estas variables son solo ejemplos. Esperamos que encuentres tus propias métricas y que puedas justificar por qué son relevantes.
+3
+Comparación Humanos vs. IA
+Pregunta central:
+¿existen diferencias estadísticamente sustentables entre el desempeño de los agentes humanos y los agentes de IA?
+Desempeño
+¿Quién es más efectivo y en qué dimensiones?
+Explicación
+¿Qué variables explican esas diferencias?
+Conducta
+¿Qué hacen mejor los humanos? ¿Qué hace mejor la IA?
+Mejora
+¿Qué tendría que cambiar para acercar los comportamientos y resultados?
+No queremos solo análisis discursivo. Cada conclusión relevante debe estar sustentada en variables, datos y comparaciones estadísticas.
+Estadística descriptiva
+Tests de hipótesis
+Econometría
+NLP / LLMs
+Embeddings
+Clustering
+Clasificación
+4
+Hallazgos clave
+Cierra con entre
+3 y 7 hallazgos accionables
+. Los datos deben hablar casi por sí solos.
+“La IA logra X% frente a Y% de los humanos, una diferencia de Z puntos porcentuales.”
+5
+Entregables
+Fecha límite:
+martes, 15 de septiembre de 2026
+.
+Entregable 01
+Reporte final en HTML
+Máximo
+2 páginas
+.
+Muy visual y con pocas palabras.
+Bullets cortos y métricas visibles.
+Gráficos solo cuando aporten información.
+Debe poder mostrarse directamente al presidente de un banco.
+Entregable 02
+Repositorio público
+Comparte el link del repositorio.
+Incluye el código utilizado.
+Construcción de variables.
+Análisis estadístico.
+Generación del reporte.
+Envía tu entrega a estos cuatro correos:
+guibor@crecere.ai
+nicolas.mendoza@crecere.ai
+roberto@crecere.ai
+tatiana@crecere.ai
+ASUNTO DEL CORREO
+PRUEBA TÉCNICA – NOMBRE APELLIDO – CÉDULA
+La entrega debe incluir obligatoriamente las dos cosas:
+1. El
+resultado final en HTML
+.
+2. El
+link al repositorio público de GitHub
+con el código del ejercicio.
+Si falta uno de los dos entregables, la prueba se considera incompleta.
+Enviar entrega
+6
+Qué estamos evaluando
+Tres cosas. No premiamos complejidad ni volumen: premiamos criterio, claridad y capacidad de terminar bien.
+&lt;/&gt;
+Código limpio
+Simple, legible, reproducible y auditable. Puedes usar IA: escribir muchas líneas no suma puntos. Resolver bien con poco, sí.
+◫
+Visualización de calidad
+Un reporte pulido, consistente y ejecutivo. Con IA disponible, un trabajo visualmente descuidado es difícil de justificar.
+→
+Thought process claro
+Preguntas, hipótesis y decisiones analíticas fáciles de seguir. Queremos entender cómo piensas, en pocas palabras y sin esconderte detrás de tecnicismos.
+Haz que los datos hablen.
+Creceré AI · Technical Challenge
+Data Scientist / Data Analyst Junior
