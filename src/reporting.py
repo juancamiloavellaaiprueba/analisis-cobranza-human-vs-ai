@@ -423,78 +423,183 @@ def generar_reporte_ejecutivo_html(df: pd.DataFrame, ruta_salida: str):
 
         /* Control de impresión estricto: Máximo 2 páginas */
         @media print {{
-            @page {{ size: A4; margin: 12mm 14mm; }}
-            body {{ padding: 0; font-size: 11px; line-height: 1.32; }}
+            @page {{ size: A4; margin: 10mm 12mm; }}
+            body {{ padding: 0; font-size: 10.5px; line-height: 1.28; }}
             .container {{ max-width: 100%; }}
-            .page-break {{ page-break-before: always; margin-top: 14px; }}
+            .page-break {{ page-break-before: always; margin-top: 0; }}
             .no-print {{ display: none; }}
-            .card, .funnel-box, .metric-box {{ break-inside: avoid; }}
+            .card, .funnel-box, .metric-box, .table-wrap, .edu-compact-card, .limitations-box {{ break-inside: avoid; }}
         }}
 
-        header {{ border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; }}
-        .title-area h1 {{ font-size: 17px; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; text-transform: uppercase; }}
-        .title-area p {{ font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }}
-        .meta-pill {{ font-size: 10.5px; font-weight: 700; color: var(--blue); background: var(--blue-subtle); padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }}
+        header {{ border-bottom: 2px solid var(--primary); padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-end; }}
+        .title-area h1 {{ font-size: 16px; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; text-transform: uppercase; }}
+        .title-area p {{ font-size: 11px; color: var(--text-muted); margin-top: 1px; }}
+        .meta-pill {{ font-size: 10px; font-weight: 700; color: var(--blue); background: var(--blue-subtle); padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }}
 
-        .exec-summary {{ background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; }}
-        .exec-summary strong {{ color: var(--primary); font-size: 12px; }}
-        .exec-summary p {{ font-size: 11.5px; color: #334155; margin-top: 4px; }}
+        /* Tarjeta de Acceso al Repositorio */
+        .repo-card {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }}
+        .repo-card-content {{
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }}
+        .repo-card-title {{
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }}
+        .repo-card-desc {{
+            font-size: 10px;
+            color: var(--text-muted);
+        }}
+        .repo-card-btn {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background-color: var(--primary);
+            color: #ffffff !important;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            white-space: nowrap;
+            border: 1px solid #000000;
+            transition: background-color 0.15s ease;
+        }}
+        .repo-card-btn:hover {{
+            background-color: var(--blue);
+            color: #ffffff !important;
+        }}
 
-        h2 {{ font-size: 12.5px; font-weight: 800; text-transform: uppercase; color: var(--primary); margin: 10px 0 6px 0; border-bottom: 1px solid var(--border-light); padding-bottom: 2px; letter-spacing: 0.02em; }}
+        .exec-summary {{ background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; }}
+        .exec-summary strong {{ color: var(--primary); font-size: 11.5px; }}
+        .exec-summary p {{ font-size: 11px; color: #334155; margin-top: 3px; line-height: 1.35; }}
+
+        h2 {{ font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--primary); margin: 8px 0 5px 0; border-bottom: 1px solid var(--border-light); padding-bottom: 2px; letter-spacing: 0.02em; }}
 
         /* Tarjetas de Métricas Principales */
-        .metric-cards {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }}
-        .metric-box {{ background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 11px; border-top: 3px solid var(--primary); }}
+        .metric-cards {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }}
+        .metric-box {{ background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; border-top: 3px solid var(--primary); }}
         .metric-box.primary-result {{ border-top-color: #0f172a; background: #fafafa; }}
         .metric-box.signal-a {{ border-top-color: var(--blue); }}
         .metric-box.signal-b {{ border-top-color: var(--purple); }}
-        .metric-header {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }}
-        .metric-title {{ font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }}
-        .badge {{ font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; text-transform: uppercase; white-space: nowrap; }}
+        .metric-header {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3px; }}
+        .metric-title {{ font-size: 9.5px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }}
+        .badge {{ font-size: 8.5px; font-weight: 700; padding: 2px 4px; border-radius: 3px; text-transform: uppercase; white-space: nowrap; }}
         .badge-ns {{ background: #f1f5f9; color: var(--tag-ns); border: 1px solid var(--border); }}
         .badge-sig {{ background: #ecfdf5; color: var(--tag-sig); border: 1px solid #a7f3d0; }}
         .badge-fdr-fail {{ background: #fef3c7; color: var(--tag-marg); border: 1px solid #fde68a; }}
 
-        .metric-values {{ display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 4px 0; }}
-        .val-group span {{ display: block; font-size: 9.5px; color: var(--text-muted); font-weight: 600; }}
-        .val-group strong {{ font-size: 17px; font-weight: 800; color: var(--primary); }}
-        .dif-tag {{ font-size: 11px; font-weight: 800; color: var(--primary); background: #f1f5f9; padding: 3px 6px; border-radius: 4px; }}
-        .metric-desc {{ font-size: 10.5px; color: #475569; border-top: 1px solid var(--border-light); padding-top: 4px; margin-top: 4px; }}
+        .metric-values {{ display: flex; justify-content: space-between; align-items: baseline; margin: 4px 0 3px 0; }}
+        .val-group span {{ display: block; font-size: 9px; color: var(--text-muted); font-weight: 600; }}
+        .val-group strong {{ font-size: 16px; font-weight: 800; color: var(--primary); }}
+        .dif-tag {{ font-size: 10.5px; font-weight: 800; color: var(--primary); background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }}
+        .metric-desc {{ font-size: 10px; color: #475569; border-top: 1px solid var(--border-light); padding-top: 3px; margin-top: 3px; line-height: 1.3; }}
 
         /* Embudo de Proceso (Funnel) */
-        .funnel-box {{ background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; }}
-        .funnel-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; position: relative; margin-top: 6px; }}
-        .funnel-step {{ background: #ffffff; border: 1px solid var(--border-light); border-radius: 5px; padding: 8px 10px; text-align: center; }}
-        .funnel-step h4 {{ font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }}
-        .funnel-bars {{ display: flex; flex-direction: column; gap: 4px; }}
-        .f-bar-row {{ display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; }}
-        .f-bar-track {{ height: 5px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 1px; }}
+        .funnel-box {{ background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; }}
+        .funnel-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; position: relative; margin-top: 4px; }}
+        .funnel-step {{ background: #ffffff; border: 1px solid var(--border-light); border-radius: 5px; padding: 6px 8px; text-align: center; }}
+        .funnel-step h4 {{ font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }}
+        .funnel-bars {{ display: flex; flex-direction: column; gap: 3px; }}
+        .f-bar-row {{ display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; }}
+        .f-bar-track {{ height: 4px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 1px; }}
         .f-fill-h {{ height: 100%; background: #0f172a; border-radius: 999px; }}
         .f-fill-ia {{ height: 100%; background: #0284c7; border-radius: 999px; }}
-        .funnel-note {{ font-size: 10px; color: var(--text-muted); margin-top: 6px; text-align: center; font-style: italic; }}
+        .funnel-note {{ font-size: 9.5px; color: var(--text-muted); margin-top: 4px; text-align: center; font-style: italic; }}
 
         /* Métrica Condicional Destacada */
-        .conditional-box {{ background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }}
-        .cond-left h4 {{ font-size: 11px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; }}
-        .cond-left p {{ font-size: 10.5px; color: #1e40af; margin-top: 2px; }}
+        .conditional-box {{ background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 7px 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }}
+        .cond-left h4 {{ font-size: 10.5px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; }}
+        .cond-left p {{ font-size: 10px; color: #1e40af; margin-top: 1px; }}
         .cond-stat {{ text-align: right; white-space: nowrap; }}
-        .cond-stat strong {{ font-size: 15px; font-weight: 800; color: #1e3a8a; }}
-        .cond-stat small {{ display: block; font-size: 9.5px; color: #3b82f6; font-weight: 600; }}
+        .cond-stat strong {{ font-size: 14px; font-weight: 800; color: #1e3a8a; }}
+        .cond-stat small {{ display: block; font-size: 9px; color: #3b82f6; font-weight: 600; }}
 
         /* Bullets analíticos */
-        .bullets {{ list-style: none; margin-bottom: 10px; }}
-        .bullets li {{ position: relative; padding-left: 12px; margin-bottom: 4px; font-size: 11px; color: #334155; }}
-        .bullets li::before {{ content: "-"; position: absolute; left: 0; font-weight: 800; color: var(--blue); }}
+        .bullets {{ list-style: none; margin-bottom: 8px; }}
+        .bullets li {{ position: relative; padding-left: 12px; margin-bottom: 3px; font-size: 10.5px; color: #334155; line-height: 1.32; }}
+        .bullets li::before {{ content: "•"; position: absolute; left: 2px; font-weight: 800; color: var(--blue); }}
 
         /* Tabla compacta de soporte secundario */
-        .table-wrap {{ border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 10px; }}
-        table {{ width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; }}
-        th {{ background: #f8fafc; color: var(--primary); font-weight: 700; padding: 5px 8px; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; }}
-        td {{ padding: 5px 8px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }}
+        .table-wrap {{ border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 8px; }}
+        table {{ width: 100%; border-collapse: collapse; font-size: 10px; text-align: left; }}
+        th {{ background: #f8fafc; color: var(--primary); font-weight: 700; padding: 4px 7px; border-bottom: 1px solid var(--border); font-size: 9.5px; text-transform: uppercase; }}
+        td {{ padding: 4px 7px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }}
         tr:last-child td {{ border-bottom: none; }}
 
+        /* Metodología Compacta en Informe */
+        .edu-compact-grid {{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 6px;
+        }}
+        .edu-compact-card {{
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-top: 2px solid var(--blue);
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 9px;
+            line-height: 1.3;
+        }}
+        .edu-compact-title {{
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 9.5px;
+            margin-bottom: 1px;
+        }}
+        .edu-compact-desc {{
+            color: #475569;
+        }}
+        .edu-highlight-box-compact {{
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 3px solid #b45309;
+            border-radius: 4px;
+            padding: 4px 8px;
+            margin-bottom: 6px;
+            font-size: 9.5px;
+            line-height: 1.32;
+            color: #78350f;
+        }}
+        .edu-highlight-box-compact strong {{
+            color: #92400e;
+            display: block;
+            margin-bottom: 1px;
+            font-size: 9.8px;
+        }}
+        .limitations-box {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-size: 9.5px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }}
+
         /* Footer de Gobernanza y Limitaciones */
-        footer {{ border-top: 1px solid var(--border); padding-top: 6px; margin-top: 8px; display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-muted); }}
+        footer {{ border-top: 1px solid var(--border); padding-top: 5px; margin-top: 6px; display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); }}
     </style>
 </head>
 <body>
@@ -506,6 +611,21 @@ def generar_reporte_ejecutivo_html(df: pd.DataFrame, ruta_salida: str):
         </div>
         <div class="meta-pill">N = 100 · 50H / 50IA</div>
     </header>
+
+    <!-- Tarjeta Destacada de Acceso al Repositorio -->
+    <div class="repo-card">
+        <div class="repo-card-content">
+            <div class="repo-card-title">
+                <span>🔗</span> Repositorio del proyecto
+            </div>
+            <div class="repo-card-desc">
+                Código fuente reproducible, datos, análisis y documentación disponibles en GitHub.
+            </div>
+        </div>
+        <a href="https://github.com/juancamiloavellaaiprueba/analisis-cobranza-human-vs-ai" class="repo-card-btn" target="_blank" rel="noopener noreferrer">
+            Ver repositorio en GitHub
+        </a>
+    </div>
 
     <!-- 1. Mensaje Ejecutivo Central -->
     <div class="exec-summary">
@@ -710,9 +830,44 @@ def generar_reporte_ejecutivo_html(df: pd.DataFrame, ruta_salida: str):
         <li><strong>Recomendación de Diseño (Modelo Híbrido Experimental):</strong> Los resultados justifican <em>explorar</em> un esquema híbrido que combine la consistencia operativa de la IA para barrido de contacto y apertura de ofertas, con intervención de negociadores humanos especializados para situaciones complejas o clientes con intención no concretada. Esta recomendación debe validarse mediante experimentación controlada.</li>
     </ul>
 
-    <!-- 7. Limitaciones del Estudio -->
-    <h2>5. Limitaciones Metodológicas</h2>
-    <div style="background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:6px 10px; font-size:10px; color:var(--text-muted);">
+    <!-- 7. Metodología Estadística Compacta -->
+    <h2>5. Marco Metodológico y Pruebas Estadísticas</h2>
+    <div class="edu-compact-grid">
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">🎯 Fisher Exacto Bilateral</div>
+            <div class="edu-compact-desc">Tablas 2×2 con frecuencias esperadas &lt; 5 (acuerdos, consistencia QA). Evalúa asociación exacta sin supuestos asintóticos.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">📊 Chi-cuadrado (Yates)</div>
+            <div class="edu-compact-desc">Tablas 2×2 con frecuencias esperadas &ge; 5 (oferta, intención, descuento, negociación). Corrige continuidad para evitar sobrestimación.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">📈 Mann–Whitney U</div>
+            <div class="edu-compact-desc">Prueba no paramétrica para distribuciones numéricas asimétricas (duración, propuestas). Compara medianas sin asumir normalidad.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">📏 Cohen's h (Efecto)</div>
+            <div class="edu-compact-desc">Distancia angular de arcoseno que estandariza la magnitud de la diferencia entre dos proporciones, independientemente de N.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">🎯 Intervalos de Confianza (95%)</div>
+            <div class="edu-compact-desc">Rango de plausibilidad para la diferencia (H - IA) que dimensiona la incertidumbre de la estimación al nivel de confianza del 95%.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">🔬 Control FDR (Benjamini-Hochberg)</div>
+            <div class="edu-compact-desc">Control riguroso de la tasa de falsos descubrimientos (q=0.05) ante contrastes múltiples en la familia secundaria preespecificada.</div>
+        </div>
+    </div>
+
+    <!-- Tarjeta destacada: Significancia estadística vs importancia práctica -->
+    <div class="edu-highlight-box-compact">
+        <strong>💡 Principio Clave: Significancia Estadística ≠ Importancia Práctica</strong>
+        Un valor p &lt; 0.05 señala evidencia contra H₀ bajo el contraste realizado, pero no determina la magnitud ni la viabilidad de negocio. Por ello, los resultados deben interpretarse en conjunto con el tamaño del efecto (Cohen's h), los intervalos de confianza y el carácter observacional del estudio. <em>(Detalle metodológico completo en Anexo Técnico).</em>
+    </div>
+
+    <!-- 8. Limitaciones del Estudio -->
+    <h2>6. Limitaciones Metodológicas</h2>
+    <div class="limitations-box">
         <strong>Alcance del estudio:</strong>
         (1) Muestra acotada a 100 llamadas (50 por grupo), con potencia estadística limitada para confirmar diferencias en eventos de baja tasa base como acuerdos.
         (2) Estudio estrictamente observacional: no existió asignación aleatoria controlada de clientes; diferencias de cartera podrían actuar como confusores.
@@ -806,6 +961,143 @@ def generar_anexo_tecnico_html(df: pd.DataFrame, ruta_salida: str):
         .badge-ns {{ background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid var(--border); }}
 
         .card-box {{ background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin: 1rem 0; }}
+        
+        /* Tarjeta de Acceso al Repositorio */
+        .repo-card {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 0.9rem 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }}
+        .repo-card-content {{
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }}
+        .repo-card-title {{
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }}
+        .repo-card-desc {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }}
+        .repo-card-btn {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: var(--primary);
+            color: #0f172a !important;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 0.55rem 1.1rem;
+            border-radius: 6px;
+            white-space: nowrap;
+            transition: opacity 0.15s ease;
+        }}
+        .repo-card-btn:hover {{
+            opacity: 0.9;
+        }}
+
+        /* Sección Educativa en Anexo */
+        .edu-grid {{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }}
+        @media (max-width: 800px) {{
+            .edu-grid {{ grid-template-columns: 1fr; }}
+        }}
+        .edu-card {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }}
+        .edu-card.accent-purple {{ border-top-color: var(--accent); }}
+        .edu-card.accent-blue {{ border-top-color: #38bdf8; }}
+        .edu-card-header {{
+            border-bottom: 1px solid rgba(71, 85, 105, 0.4);
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.2rem;
+        }}
+        .edu-card-title {{
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }}
+        .edu-card-desc {{
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.1rem;
+            font-style: italic;
+        }}
+        .edu-point {{
+            font-size: 0.84rem;
+            line-height: 1.45;
+            color: #cbd5e1;
+        }}
+        .edu-point-label {{
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            display: block;
+            margin-bottom: 0.1rem;
+        }}
+        .edu-highlight-box {{
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-left: 4px solid var(--warning);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin: 1.2rem 0;
+        }}
+        .edu-highlight-title {{
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--warning);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.4rem;
+        }}
+        .edu-highlight-text {{
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }}
+        .edu-highlight-text p {{
+            margin-bottom: 0.4rem;
+            color: #e2e8f0;
+        }}
+        .edu-highlight-text p:last-child {{
+            margin-bottom: 0;
+        }}
+
         footer {{ margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.8rem; }}
     </style>
 </head>
@@ -833,6 +1125,21 @@ def generar_anexo_tecnico_html(df: pd.DataFrame, ruta_salida: str):
             </div>
         </div>
     </header>
+
+    <!-- Tarjeta de Acceso al Repositorio -->
+    <div class="repo-card">
+        <div class="repo-card-content">
+            <div class="repo-card-title">
+                <span>🔗</span> Repositorio del proyecto
+            </div>
+            <div class="repo-card-desc">
+                Código fuente reproducible, datos, scripts y documentación técnica auditables en GitHub.
+            </div>
+        </div>
+        <a href="https://github.com/juancamiloavellaaiprueba/analisis-cobranza-human-vs-ai" class="repo-card-btn" target="_blank" rel="noopener noreferrer">
+            Ver repositorio en GitHub
+        </a>
+    </div>
 
     <!-- 1. Criterios de Selección de Pruebas -->
     <h2>1. Reglas de Decisión y Criterios Inferenciales</h2>
@@ -1075,8 +1382,147 @@ def generar_anexo_tecnico_html(df: pd.DataFrame, ruta_salida: str):
         </ul>
     </div>
 
-    <!-- 5. Tabla de Interpretación Permitida vs No Permitida -->
-    <h2>5. Guía de Redacción: Interpretación Permitida vs. NO Permitida</h2>
+    <!-- 5. Fundamentación y Justificación de las Pruebas Estadísticas -->
+    <h2>5. Fundamentación y Justificación de las Pruebas Estadísticas Utilizadas</h2>
+    <div class="card-box">
+        <p>Las pruebas estadísticas y herramientas inferenciales se seleccionaron en estricta coherencia con la naturaleza de las variables analizadas, el cumplimiento de supuestos distribucionales y el control del error metodológico:</p>
+        
+        <div class="edu-grid">
+            <!-- 1. Fisher exacto -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <div class="edu-card-title">🎯 Fisher Exacto Bilateral</div>
+                    <div class="edu-card-desc">Prueba exacta para tablas 2×2 con frecuencias observadas o esperadas bajas</div>
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Qué responde?</span>
+                    Evalúa la hipótesis nula de independencia entre dos variables categóricas calculando la probabilidad hipergeométrica exacta de obtener una distribución tan o más extrema que la observada.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Por qué se utiliza aquí?</span>
+                    Es el método más riguroso y apropiado cuando al menos una celda esperada es menor a 5 ($E_{{ij}} &lt; 5.0$), como ocurre en <code>acuerdo_pago</code> ($\\\\min E = 4.50$), <code>contactabilidad</code> ($\\\\min E = 2.50$), <code>conv_oferta_a_acuerdo</code> ($\\\\min E = 3.71$) e <code>inconsistencia_matematica</code> ($\\\\min E = 3.50$).
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Cómo interpretar el resultado?</span>
+                    En <code>acuerdo_pago</code> se obtuvo $p = 0.1595$, por lo que no se rechaza $H_0$ al 5%. Esto indica que la muestra disponible no proporciona evidencia suficiente para confirmar una diferencia estadísticamente sustentable entre ambos canales.
+                </div>
+            </div>
+
+            <!-- 2. Chi-cuadrado con corrección de Yates -->
+            <div class="edu-card accent-blue">
+                <div class="edu-card-header">
+                    <div class="edu-card-title">📊 Chi-cuadrado con Corrección de Yates</div>
+                    <div class="edu-card-desc">Prueba de asociación para tablas 2×2 con frecuencias esperadas suficientes</div>
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Qué responde?</span>
+                    Evalúa si las proporciones observadas entre grupos difieren significativamente de las esperadas bajo independencia estadística.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Por qué se utiliza aquí?</span>
+                    Se aplica en tablas 2×2 con frecuencias esperadas mayores o iguales a 5 ($E_{{ij}} \\\\ge 5.0$), como <code>intencion_pago</code>, <code>oferta_pago</code>, <code>tiene_descuento</code> y <code>negociacion</code>. Incorpora la corrección de continuidad de Yates para evitar la subestimación del valor p en muestras moderadas.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Cómo interpretar el resultado?</span>
+                    Un valor p pequeño indica evidencia en contra de la independencia. Debe interpretarse junto con el control de multiplicidad FDR y la magnitud del efecto.
+                </div>
+            </div>
+
+            <!-- 3. Mann–Whitney U -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <div class="edu-card-title">📈 Mann–Whitney U (No Paramétrica)</div>
+                    <div class="edu-card-desc">Comparación de distribuciones continuas/discretas sin supuestos de normalidad</div>
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Qué responde?</span>
+                    Compara dos grupos independientes evaluando si las observaciones de uno de ellos tienden a superar estocásticamente a las del otro a partir del ordenamiento de rangos.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Por qué se utiliza aquí?</span>
+                    Se emplea para variables numéricas fuertemente asimétricas como <code>duracion_segundos</code> ($\text{{skew}} = 2.16$ en Humanos y $1.83$ en IA) y <code>num_propuestas_pago</code>, en las que el test t de Student no cumple los supuestos clásicos de normalidad.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Cómo interpretar el resultado?</span>
+                    Se reportan las medianas de cada grupo y la correlación biserial por rangos $r$. En duración ($p = 0.3276$), no existe evidencia de que un canal tenga llamadas sistemáticamente más extensas o breves.
+                </div>
+            </div>
+
+            <!-- 4. Cohen's h -->
+            <div class="edu-card accent-purple">
+                <div class="edu-card-header">
+                    <div class="edu-card-title">📏 Cohen's h — Tamaño del Efecto</div>
+                    <div class="edu-card-desc">Medida estandarizada de la magnitud de la diferencia entre dos proporciones</div>
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Qué responde?</span>
+                    Mide qué tan grande o pequeña es la distancia entre dos proporciones mediante una transformación de arcoseno ($\\\\phi = 2 \\\\arcsin(\\\\sqrt{{p}})$).
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Por qué se utiliza aquí?</span>
+                    Permite desacoplar la magnitud de la diferencia respecto al tamaño muestral. Mientras que el valor p depende de $N$, Cohen's h indica directamente si la discrepancia observada es pequeña ($h \\\\approx 0.2$), mediana ($h \\\\approx 0.5$) o grande ($h \\\\ge 0.8$).
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Cómo interpretar el resultado?</span>
+                    En <code>intencion_pago</code>, $h = 0.740$ evidencia un efecto mediano a grande, confirmando que la brecha observada (+22 pp) no solo es significativa estadísticamente sino de magnitud sustancial.
+                </div>
+            </div>
+
+            <!-- 5. Intervalos de confianza -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <div class="edu-card-title">🎯 Intervalos de Confianza al 95%</div>
+                    <div class="edu-card-desc">Cuantificación de la incertidumbre y precisión de la estimación muestral</div>
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Qué responden?</span>
+                    Proporcionan un intervalo de valores plausibles para la verdadera diferencia de proporciones en la población, bajo un nivel de confianza del 95%.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Por qué se utilizan aquí?</span>
+                    Complementan la estimación puntual mostrando el margen de error muestral y evitando el pensamiento binario de significancia.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Cómo interpretar el resultado?</span>
+                    Si el IC del 95% contiene el 0.0 (como en <code>acuerdo_pago</code>: [-1.0 pp, +21.0 pp]), no se puede descartar que la diferencia real sea nula. Intervalos más estrechos reflejan estimaciones más precisas.
+                </div>
+            </div>
+
+            <!-- 6. FDR Benjamini-Hochberg -->
+            <div class="edu-card accent-blue">
+                <div class="edu-card-header">
+                    <div class="edu-card-title">🔬 FDR — Benjamini-Hochberg</div>
+                    <div class="edu-card-desc">Control de la tasa de descubrimientos falsos ante contrastes múltiples</div>
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Qué responde?</span>
+                    Controla la proporción esperada de falsos descubrimientos (rechazos incorrectos de $H_0$) cuando se ejecutan múltiples pruebas simultáneamente.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Por qué se utiliza aquí?</span>
+                    Al evaluar simultáneamente 5 métricas secundarias al 5%, la probabilidad acumulada de obtener un falso positivo por puro azar supera el 22.6%. Benjamini-Hochberg ($q = 0.05$) ajusta los umbrales críticos de forma rigurosa.
+                </div>
+                <div class="edu-point">
+                    <span class="edu-point-label">¿Cómo interpretar el resultado?</span>
+                    Solo las variables con $p_{{\text{{adj}}}} &lt; 0.05$ (<code>intencion_pago</code> y <code>tiene_descuento</code>) se consideran estadísticamente descubiertas. Las demás permanecen en carácter marginal/exploratorio.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta destacada adicional -->
+        <div class="edu-highlight-box">
+            <div class="edu-highlight-title">
+                💡 Importante: Significancia Estadística ≠ Importancia Práctica
+            </div>
+            <div class="edu-highlight-text">
+                <p>Un valor p permite evaluar la evidencia estadística bajo el contraste realizado respecto a una hipótesis nula, pero por sí solo <strong>no indica qué tan grande, económicamente viable o relevante para el negocio es una diferencia observada</strong>.</p>
+                <p>Una diferencia puede ser estadísticamente detectable pero tener una magnitud trivial, o por el contrario, un efecto con potencial operativo puede no alcanzar significancia debido al tamaño acotado de la muestra (como ocurre con la baja potencia de 26.14% en acuerdos de pago). Por esta razón, el análisis triangula simultáneamente el valor p, el tamaño del efecto (Cohen's h, r biserial), los intervalos de confianza del 95% y el carácter observacional del estudio.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Tabla de Interpretación Permitida vs No Permitida -->
+    <h2>6. Guía de Redacción: Interpretación Permitida vs. NO Permitida</h2>
     <div class="table-wrap">
         <table>
             <thead>
@@ -1128,8 +1574,8 @@ def generar_anexo_tecnico_html(df: pd.DataFrame, ruta_salida: str):
         </table>
     </div>
 
-    <!-- 6. Variables Excluidas y Justificación -->
-    <h2>6. Inventario de Variables Excluidas de la Inferencia</h2>
+    <!-- 7. Variables Excluidas y Justificación -->
+    <h2>7. Inventario de Variables Excluidas de la Inferencia</h2>
     <div class="card-box">
         <ul>
             <li><code>monto_acordado</code> (98% missing), <code>monto_descuento</code> (98% missing), <code>monto_propuesto</code> (83% missing), <code>monto_cuota</code> (80% missing), <code>monto_deuda</code> (78% missing y outlier de $1.2B en humanos): Excluidas por missing masivo, potencia nula y riesgo severo de sesgo de selección.</li>

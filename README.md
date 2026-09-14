@@ -15,7 +15,7 @@ El proyecto implementa un pipeline reproducible sin sobreingenieria:
 2. **Motor de reglas NLP contextuales:** Segmentacion conversacional agente/cliente, extraccion con ventanas de contexto para preservacion estricta de negaciones (e.g., *"no puedo pagar"* vs. *"voy a pagar"*).
 3. **Parser de condiciones financieras:** Extraccion deterministica de montos en Pesos Colombianos (COP), numero de cuotas, descuentos porcentuales y fechas vinculantes de compromiso.
 4. **Control de calidad y consistencia:** Reglas cruzadas de validacion logica (`ok`, `revisar`, `inconsistente`) para auditar la coherencia entre montos, cuotas y acuerdos cerrados.
-5. **Validacion humana (QA secundario):** Auditoria del extractor NLP sobre casos seleccionados (`dataset_validacion_consolidado_final.xlsx`). Esta capa funciona estrictamente como QA de precision del extractor y no sustituye la base analitica de 100 llamadas.
+5. **Validacion humana (QA secundario):** Auditoria del extractor NLP sobre casos seleccionados (`data/validation/dataset_validacion_consolidado_final.xlsx`). Esta capa funciona estrictamente como QA de precision del extractor y no sustituye la base analitica de 100 llamadas.
 6. **Analisis estadistico inferencial:** Pruebas de hipotesis (Fisher exacto, Chi-cuadrado con correccion de Yates, Mann-Whitney U), intervalos de confianza al 95%, tamanos de efecto (Cohen's h, correlacion biserial por rangos) y control de tasa de falso descubrimiento (FDR Benjamini-Hochberg).
 
 ---
@@ -35,7 +35,7 @@ data/raw/transcripciones/ (100 .txt: 50 Humanos / 50 IA)
 data/raw/dataset_limpio.csv
        │
        ▼
-scripts/02_limpiar.py
+scripts/02_limpiar.py ───────────► data/processed/dataset_limpio_procesado.csv
        │
        ▼
 scripts/03_extraer_variables.py ──► data/processed/dataset_final.csv (N=100)
@@ -128,7 +128,7 @@ Para detectar una diferencia como la observada en acuerdos (14% vs. 4%) con $\al
 # 1. Instalar dependencias
 pip install -r requirements.txt
 
-# 2. Ejecutar la suite completa de tests automatizados (58 tests)
+# 2. Ejecutar la suite completa de tests automatizados (64 tests)
 python -m pytest tests/ -v
 
 # 3. Transcripción de audios (Opcional - solo si se dispone de nuevas grabaciones):

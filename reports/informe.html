@@ -28,78 +28,183 @@
 
         /* Control de impresión estricto: Máximo 2 páginas */
         @media print {
-            @page { size: A4; margin: 12mm 14mm; }
-            body { padding: 0; font-size: 11px; line-height: 1.32; }
+            @page { size: A4; margin: 10mm 12mm; }
+            body { padding: 0; font-size: 10.5px; line-height: 1.28; }
             .container { max-width: 100%; }
-            .page-break { page-break-before: always; margin-top: 14px; }
+            .page-break { page-break-before: always; margin-top: 0; }
             .no-print { display: none; }
-            .card, .funnel-box, .metric-box { break-inside: avoid; }
+            .card, .funnel-box, .metric-box, .table-wrap, .edu-compact-card, .limitations-box { break-inside: avoid; }
         }
 
-        header { border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .title-area h1 { font-size: 17px; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; text-transform: uppercase; }
-        .title-area p { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
-        .meta-pill { font-size: 10.5px; font-weight: 700; color: var(--blue); background: var(--blue-subtle); padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }
+        header { border-bottom: 2px solid var(--primary); padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .title-area h1 { font-size: 16px; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; text-transform: uppercase; }
+        .title-area p { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+        .meta-pill { font-size: 10px; font-weight: 700; color: var(--blue); background: var(--blue-subtle); padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }
 
-        .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; }
-        .exec-summary strong { color: var(--primary); font-size: 12px; }
-        .exec-summary p { font-size: 11.5px; color: #334155; margin-top: 4px; }
+        /* Tarjeta de Acceso al Repositorio */
+        .repo-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .repo-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .repo-card-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .repo-card-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .repo-card-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background-color: var(--primary);
+            color: #ffffff !important;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            white-space: nowrap;
+            border: 1px solid #000000;
+            transition: background-color 0.15s ease;
+        }
+        .repo-card-btn:hover {
+            background-color: var(--blue);
+            color: #ffffff !important;
+        }
 
-        h2 { font-size: 12.5px; font-weight: 800; text-transform: uppercase; color: var(--primary); margin: 10px 0 6px 0; border-bottom: 1px solid var(--border-light); padding-bottom: 2px; letter-spacing: 0.02em; }
+        .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; }
+        .exec-summary strong { color: var(--primary); font-size: 11.5px; }
+        .exec-summary p { font-size: 11px; color: #334155; margin-top: 3px; line-height: 1.35; }
+
+        h2 { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--primary); margin: 8px 0 5px 0; border-bottom: 1px solid var(--border-light); padding-bottom: 2px; letter-spacing: 0.02em; }
 
         /* Tarjetas de Métricas Principales */
-        .metric-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-        .metric-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 11px; border-top: 3px solid var(--primary); }
+        .metric-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+        .metric-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; border-top: 3px solid var(--primary); }
         .metric-box.primary-result { border-top-color: #0f172a; background: #fafafa; }
         .metric-box.signal-a { border-top-color: var(--blue); }
         .metric-box.signal-b { border-top-color: var(--purple); }
-        .metric-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
-        .metric-title { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
-        .badge { font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; text-transform: uppercase; white-space: nowrap; }
+        .metric-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3px; }
+        .metric-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+        .badge { font-size: 8.5px; font-weight: 700; padding: 2px 4px; border-radius: 3px; text-transform: uppercase; white-space: nowrap; }
         .badge-ns { background: #f1f5f9; color: var(--tag-ns); border: 1px solid var(--border); }
         .badge-sig { background: #ecfdf5; color: var(--tag-sig); border: 1px solid #a7f3d0; }
         .badge-fdr-fail { background: #fef3c7; color: var(--tag-marg); border: 1px solid #fde68a; }
 
-        .metric-values { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 4px 0; }
-        .val-group span { display: block; font-size: 9.5px; color: var(--text-muted); font-weight: 600; }
-        .val-group strong { font-size: 17px; font-weight: 800; color: var(--primary); }
-        .dif-tag { font-size: 11px; font-weight: 800; color: var(--primary); background: #f1f5f9; padding: 3px 6px; border-radius: 4px; }
-        .metric-desc { font-size: 10.5px; color: #475569; border-top: 1px solid var(--border-light); padding-top: 4px; margin-top: 4px; }
+        .metric-values { display: flex; justify-content: space-between; align-items: baseline; margin: 4px 0 3px 0; }
+        .val-group span { display: block; font-size: 9px; color: var(--text-muted); font-weight: 600; }
+        .val-group strong { font-size: 16px; font-weight: 800; color: var(--primary); }
+        .dif-tag { font-size: 10.5px; font-weight: 800; color: var(--primary); background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }
+        .metric-desc { font-size: 10px; color: #475569; border-top: 1px solid var(--border-light); padding-top: 3px; margin-top: 3px; line-height: 1.3; }
 
         /* Embudo de Proceso (Funnel) */
-        .funnel-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; }
-        .funnel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; position: relative; margin-top: 6px; }
-        .funnel-step { background: #ffffff; border: 1px solid var(--border-light); border-radius: 5px; padding: 8px 10px; text-align: center; }
-        .funnel-step h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-        .funnel-bars { display: flex; flex-direction: column; gap: 4px; }
-        .f-bar-row { display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; }
-        .f-bar-track { height: 5px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 1px; }
+        .funnel-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 8px; }
+        .funnel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; position: relative; margin-top: 4px; }
+        .funnel-step { background: #ffffff; border: 1px solid var(--border-light); border-radius: 5px; padding: 6px 8px; text-align: center; }
+        .funnel-step h4 { font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+        .funnel-bars { display: flex; flex-direction: column; gap: 3px; }
+        .f-bar-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; }
+        .f-bar-track { height: 4px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 1px; }
         .f-fill-h { height: 100%; background: #0f172a; border-radius: 999px; }
         .f-fill-ia { height: 100%; background: #0284c7; border-radius: 999px; }
-        .funnel-note { font-size: 10px; color: var(--text-muted); margin-top: 6px; text-align: center; font-style: italic; }
+        .funnel-note { font-size: 9.5px; color: var(--text-muted); margin-top: 4px; text-align: center; font-style: italic; }
 
         /* Métrica Condicional Destacada */
-        .conditional-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .cond-left h4 { font-size: 11px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; }
-        .cond-left p { font-size: 10.5px; color: #1e40af; margin-top: 2px; }
+        .conditional-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 7px 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .cond-left h4 { font-size: 10.5px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; }
+        .cond-left p { font-size: 10px; color: #1e40af; margin-top: 1px; }
         .cond-stat { text-align: right; white-space: nowrap; }
-        .cond-stat strong { font-size: 15px; font-weight: 800; color: #1e3a8a; }
-        .cond-stat small { display: block; font-size: 9.5px; color: #3b82f6; font-weight: 600; }
+        .cond-stat strong { font-size: 14px; font-weight: 800; color: #1e3a8a; }
+        .cond-stat small { display: block; font-size: 9px; color: #3b82f6; font-weight: 600; }
 
         /* Bullets analíticos */
-        .bullets { list-style: none; margin-bottom: 10px; }
-        .bullets li { position: relative; padding-left: 12px; margin-bottom: 4px; font-size: 11px; color: #334155; }
-        .bullets li::before { content: "-"; position: absolute; left: 0; font-weight: 800; color: var(--blue); }
+        .bullets { list-style: none; margin-bottom: 8px; }
+        .bullets li { position: relative; padding-left: 12px; margin-bottom: 3px; font-size: 10.5px; color: #334155; line-height: 1.32; }
+        .bullets li::before { content: "•"; position: absolute; left: 2px; font-weight: 800; color: var(--blue); }
 
         /* Tabla compacta de soporte secundario */
-        .table-wrap { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; }
-        th { background: #f8fafc; color: var(--primary); font-weight: 700; padding: 5px 8px; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; }
-        td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+        .table-wrap { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; text-align: left; }
+        th { background: #f8fafc; color: var(--primary); font-weight: 700; padding: 4px 7px; border-bottom: 1px solid var(--border); font-size: 9.5px; text-transform: uppercase; }
+        td { padding: 4px 7px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
 
+        /* Metodología Compacta en Informe */
+        .edu-compact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .edu-compact-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-top: 2px solid var(--blue);
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 9px;
+            line-height: 1.3;
+        }
+        .edu-compact-title {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 9.5px;
+            margin-bottom: 1px;
+        }
+        .edu-compact-desc {
+            color: #475569;
+        }
+        .edu-highlight-box-compact {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 3px solid #b45309;
+            border-radius: 4px;
+            padding: 4px 8px;
+            margin-bottom: 6px;
+            font-size: 9.5px;
+            line-height: 1.32;
+            color: #78350f;
+        }
+        .edu-highlight-box-compact strong {
+            color: #92400e;
+            display: block;
+            margin-bottom: 1px;
+            font-size: 9.8px;
+        }
+        .limitations-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-size: 9.5px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
         /* Footer de Gobernanza y Limitaciones */
-        footer { border-top: 1px solid var(--border); padding-top: 6px; margin-top: 8px; display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-muted); }
+        footer { border-top: 1px solid var(--border); padding-top: 5px; margin-top: 6px; display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); }
     </style>
 </head>
 <body>
@@ -111,6 +216,21 @@
         </div>
         <div class="meta-pill">N = 100 · 50H / 50IA</div>
     </header>
+
+    <!-- Tarjeta Destacada de Acceso al Repositorio -->
+    <div class="repo-card">
+        <div class="repo-card-content">
+            <div class="repo-card-title">
+                <span>🔗</span> Repositorio del proyecto
+            </div>
+            <div class="repo-card-desc">
+                Código fuente reproducible, datos, análisis y documentación disponibles en GitHub.
+            </div>
+        </div>
+        <a href="https://github.com/juancamiloavellaaiprueba/analisis-cobranza-human-vs-ai" class="repo-card-btn" target="_blank" rel="noopener noreferrer">
+            Ver repositorio en GitHub
+        </a>
+    </div>
 
     <!-- 1. Mensaje Ejecutivo Central -->
     <div class="exec-summary">
@@ -315,9 +435,44 @@
         <li><strong>Recomendación de Diseño (Modelo Híbrido Experimental):</strong> Los resultados justifican <em>explorar</em> un esquema híbrido que combine la consistencia operativa de la IA para barrido de contacto y apertura de ofertas, con intervención de negociadores humanos especializados para situaciones complejas o clientes con intención no concretada. Esta recomendación debe validarse mediante experimentación controlada.</li>
     </ul>
 
-    <!-- 7. Limitaciones del Estudio -->
-    <h2>5. Limitaciones Metodológicas</h2>
-    <div style="background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:6px 10px; font-size:10px; color:var(--text-muted);">
+    <!-- 7. Metodología Estadística Compacta -->
+    <h2>5. Marco Metodológico y Pruebas Estadísticas</h2>
+    <div class="edu-compact-grid">
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">🎯 Fisher Exacto Bilateral</div>
+            <div class="edu-compact-desc">Tablas 2×2 con frecuencias esperadas &lt; 5 (acuerdos, consistencia QA). Evalúa asociación exacta sin supuestos asintóticos.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">📊 Chi-cuadrado (Yates)</div>
+            <div class="edu-compact-desc">Tablas 2×2 con frecuencias esperadas &ge; 5 (oferta, intención, descuento, negociación). Corrige continuidad para evitar sobrestimación.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">📈 Mann–Whitney U</div>
+            <div class="edu-compact-desc">Prueba no paramétrica para distribuciones numéricas asimétricas (duración, propuestas). Compara medianas sin asumir normalidad.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">📏 Cohen's h (Efecto)</div>
+            <div class="edu-compact-desc">Distancia angular de arcoseno que estandariza la magnitud de la diferencia entre dos proporciones, independientemente de N.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">🎯 Intervalos de Confianza (95%)</div>
+            <div class="edu-compact-desc">Rango de plausibilidad para la diferencia (H - IA) que dimensiona la incertidumbre de la estimación al nivel de confianza del 95%.</div>
+        </div>
+        <div class="edu-compact-card">
+            <div class="edu-compact-title">🔬 Control FDR (Benjamini-Hochberg)</div>
+            <div class="edu-compact-desc">Control riguroso de la tasa de falsos descubrimientos (q=0.05) ante contrastes múltiples en la familia secundaria preespecificada.</div>
+        </div>
+    </div>
+
+    <!-- Tarjeta destacada: Significancia estadística vs importancia práctica -->
+    <div class="edu-highlight-box-compact">
+        <strong>💡 Principio Clave: Significancia Estadística ≠ Importancia Práctica</strong>
+        Un valor p &lt; 0.05 señala evidencia contra H₀ bajo el contraste realizado, pero no determina la magnitud ni la viabilidad de negocio. Por ello, los resultados deben interpretarse en conjunto con el tamaño del efecto (Cohen's h), los intervalos de confianza y el carácter observacional del estudio. <em>(Detalle metodológico completo en Anexo Técnico).</em>
+    </div>
+
+    <!-- 8. Limitaciones del Estudio -->
+    <h2>6. Limitaciones Metodológicas</h2>
+    <div class="limitations-box">
         <strong>Alcance del estudio:</strong>
         (1) Muestra acotada a 100 llamadas (50 por grupo), con potencia estadística limitada para confirmar diferencias en eventos de baja tasa base como acuerdos.
         (2) Estudio estrictamente observacional: no existió asignación aleatoria controlada de clientes; diferencias de cartera podrían actuar como confusores.
