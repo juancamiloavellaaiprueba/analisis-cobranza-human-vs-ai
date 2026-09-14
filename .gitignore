@@ -1,0 +1,27 @@
+# Archivos de audio y multimedia
+*.wav
+*.mp3
+*.ogg
+*.m4a
+*.flac
+*.zip
+
+# Entornos virtuales y dependencias
+venv/
+.venv/
+env/
+.env
+
+# Python cache y compilacion
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
