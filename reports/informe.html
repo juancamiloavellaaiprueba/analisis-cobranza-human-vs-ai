@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Ejecutivo: Comparación de Gestión de Cobranza (Humanos vs IA)</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #f8fafc;
+            --surface-alt: #f1f5f9;
+            --primary: #0f172a;
+            --blue: #1e40af;
+            --blue-subtle: #dbeafe;
+            --purple: #581c87;
+            --purple-subtle: #f3e8ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #cbd5e1;
+            --border-light: #e2e8f0;
+            --tag-ns: #64748b;
+            --tag-sig: #047857;
+            --tag-marg: #b45309;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.42; font-size: 12px; padding: 22px 28px; }
+        .container { max-width: 920px; margin: 0 auto; }
+
+        /* Control de impresión estricto: Máximo 2 páginas */
+        @media print {
+            @page { size: A4; margin: 12mm 14mm; }
+            body { padding: 0; font-size: 11px; line-height: 1.32; }
+            .container { max-width: 100%; }
+            .page-break { page-break-before: always; margin-top: 14px; }
+            .no-print { display: none; }
+            .card, .funnel-box, .metric-box { break-inside: avoid; }
+        }
+
+        header { border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .title-area h1 { font-size: 17px; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; text-transform: uppercase; }
+        .title-area p { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+        .meta-pill { font-size: 10.5px; font-weight: 700; color: var(--blue); background: var(--blue-subtle); padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }
+
+        .exec-summary { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px; }
+        .exec-summary strong { color: var(--primary); font-size: 12px; }
+        .exec-summary p { font-size: 11.5px; color: #334155; margin-top: 4px; }
+
+        h2 { font-size: 12.5px; font-weight: 800; text-transform: uppercase; color: var(--primary); margin: 10px 0 6px 0; border-bottom: 1px solid var(--border-light); padding-bottom: 2px; letter-spacing: 0.02em; }
+
+        /* Tarjetas de Métricas Principales */
+        .metric-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+        .metric-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 11px; border-top: 3px solid var(--primary); }
+        .metric-box.primary-result { border-top-color: #0f172a; background: #fafafa; }
+        .metric-box.signal-a { border-top-color: var(--blue); }
+        .metric-box.signal-b { border-top-color: var(--purple); }
+        .metric-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+        .metric-title { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+        .badge { font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; text-transform: uppercase; white-space: nowrap; }
+        .badge-ns { background: #f1f5f9; color: var(--tag-ns); border: 1px solid var(--border); }
+        .badge-sig { background: #ecfdf5; color: var(--tag-sig); border: 1px solid #a7f3d0; }
+        .badge-fdr-fail { background: #fef3c7; color: var(--tag-marg); border: 1px solid #fde68a; }
+
+        .metric-values { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 4px 0; }
+        .val-group span { display: block; font-size: 9.5px; color: var(--text-muted); font-weight: 600; }
+        .val-group strong { font-size: 17px; font-weight: 800; color: var(--primary); }
+        .dif-tag { font-size: 11px; font-weight: 800; color: var(--primary); background: #f1f5f9; padding: 3px 6px; border-radius: 4px; }
+        .metric-desc { font-size: 10.5px; color: #475569; border-top: 1px solid var(--border-light); padding-top: 4px; margin-top: 4px; }
+
+        /* Embudo de Proceso (Funnel) */
+        .funnel-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; }
+        .funnel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; position: relative; margin-top: 6px; }
+        .funnel-step { background: #ffffff; border: 1px solid var(--border-light); border-radius: 5px; padding: 8px 10px; text-align: center; }
+        .funnel-step h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+        .funnel-bars { display: flex; flex-direction: column; gap: 4px; }
+        .f-bar-row { display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; }
+        .f-bar-track { height: 5px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 1px; }
+        .f-fill-h { height: 100%; background: #0f172a; border-radius: 999px; }
+        .f-fill-ia { height: 100%; background: #0284c7; border-radius: 999px; }
+        .funnel-note { font-size: 10px; color: var(--text-muted); margin-top: 6px; text-align: center; font-style: italic; }
+
+        /* Métrica Condicional Destacada */
+        .conditional-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .cond-left h4 { font-size: 11px; font-weight: 800; color: #1e3a8a; text-transform: uppercase; }
+        .cond-left p { font-size: 10.5px; color: #1e40af; margin-top: 2px; }
+        .cond-stat { text-align: right; white-space: nowrap; }
+        .cond-stat strong { font-size: 15px; font-weight: 800; color: #1e3a8a; }
+        .cond-stat small { display: block; font-size: 9.5px; color: #3b82f6; font-weight: 600; }
+
+        /* Bullets analíticos */
+        .bullets { list-style: none; margin-bottom: 10px; }
+        .bullets li { position: relative; padding-left: 12px; margin-bottom: 4px; font-size: 11px; color: #334155; }
+        .bullets li::before { content: "-"; position: absolute; left: 0; font-weight: 800; color: var(--blue); }
+
+        /* Tabla compacta de soporte secundario */
+        .table-wrap { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; }
+        th { background: #f8fafc; color: var(--primary); font-weight: 700; padding: 5px 8px; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; }
+        td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Footer de Gobernanza y Limitaciones */
+        footer { border-top: 1px solid var(--border); padding-top: 6px; margin-top: 8px; display: flex; justify-content: space-between; font-size: 9.5px; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="title-area">
+            <h1>Comparación de Gestión de Cobranza: Humanos vs. IA</h1>
+            <p>Evaluación analítica observacional sobre 100 llamadas telefónicas (50 Agentes Humanos / 50 Agentes IA)</p>
+        </div>
+        <div class="meta-pill">N = 100 · 50H / 50IA</div>
+    </header>
+
+    <!-- 1. Mensaje Ejecutivo Central -->
+    <div class="exec-summary">
+        <strong>Dictamen Metodológico Central:</strong>
+        <p>Los datos reflejan <strong>perfiles operativos distintos</strong> entre ambos canales, pero <strong>la muestra observada no permite confirmar una diferencia estadísticamente sustentable en el resultado final de acuerdos de pago</strong> (14.0% Humano vs. 4.0% IA, Fisher bilateral p = 0.1595; no se rechaza H0 al 5%). La IA presentó ofertas formales con mayor frecuencia (74% vs. 52%), mientras que en las llamadas humanas se observó una proporción significativamente mayor de clientes manifestando intención verbal de pago (24% vs. 2%).</p>
+    </div>
+
+    <!-- 2. Jerarquía de Métricas: Resultado Principal y Señales Operativas -->
+    <h2>1. Métrica de Resultado Culminante y Señales Operativas Destacadas</h2>
+    <div class="metric-cards">
+        <!-- A. Resultado Principal -->
+        <div class="metric-box primary-result">
+            <div class="metric-header">
+                <span class="metric-title">A. Resultado Principal</span>
+                <span class="badge badge-ns">No significativo (p = 0.1595)</span>
+            </div>
+            <div style="font-size:11px; font-weight:800; color:var(--primary);">Acuerdo Formal de Pago</div>
+            <div class="metric-values">
+                <div class="val-group">
+                    <span>Humano (7/50)</span>
+                    <strong>14.0%</strong>
+                </div>
+                <div class="val-group">
+                    <span>IA (2/50)</span>
+                    <strong>4.0%</strong>
+                </div>
+                <div class="dif-tag">+10.0 pp</div>
+            </div>
+            <div class="metric-desc">
+                IC 95%: [-1.0 pp, 21.0 pp] · Fisher bilateral p = 0.1595.<br>
+                <strong>Conclusión:</strong> Se observa una tasa mayor en humanos (+10 pp), pero <strong>no se rechaza H0</strong>. La muestra no permite confirmar estadísticamente una diferencia en acuerdos finales.
+            </div>
+        </div>
+
+        <!-- B. Señal 1: Intención de Pago -->
+        <div class="metric-box signal-a">
+            <div class="metric-header">
+                <span class="metric-title">B. Comportamiento Cliente</span>
+                <span class="badge badge-sig">FDR Significativo (p_adj = 0.0147)</span>
+            </div>
+            <div style="font-size:11px; font-weight:800; color:var(--primary);">Intención Verbal de Pago</div>
+            <div class="metric-values">
+                <div class="val-group">
+                    <span>Humano (12/50)</span>
+                    <strong>24.0%</strong>
+                </div>
+                <div class="val-group">
+                    <span>IA (1/50)</span>
+                    <strong>2.0%</strong>
+                </div>
+                <div class="dif-tag">+22.0 pp</div>
+            </div>
+            <div class="metric-desc">
+                IC 95%: [9.5 pp, 34.5 pp] · Chi2 p = 0.0029 (p_adj = 0.0147).<br>
+                <strong>Conclusión:</strong> Se observó una proporción significativamente mayor de deudores manifestando intención espontánea de pago en el canal humano (variable intermedia declarativa).
+            </div>
+        </div>
+
+        <!-- C. Señal 2: Oferta de Pago -->
+        <div class="metric-box signal-b">
+            <div class="metric-header">
+                <span class="metric-title">C. Adherencia Protocolar</span>
+                <span class="badge badge-fdr-fail">No supera FDR (p_adj = 0.0639)</span>
+            </div>
+            <div style="font-size:11px; font-weight:800; color:var(--primary);">Apertura de Oferta Formal</div>
+            <div class="metric-values">
+                <div class="val-group">
+                    <span>Humano (26/50)</span>
+                    <strong>52.0%</strong>
+                </div>
+                <div class="val-group">
+                    <span>IA (37/50)</span>
+                    <strong>74.0%</strong>
+                </div>
+                <div class="dif-tag">-22.0 pp</div>
+            </div>
+            <div class="metric-desc">
+                IC 95%: [-40.4 pp, -3.6 pp] · Chi2 p = 0.0383 sin ajuste.<br>
+                <strong>Conclusión:</strong> La IA presentó ofertas con mayor frecuencia en la muestra (74% vs. 52%). La diferencia es significativa sin ajuste, pero <strong>no supera el control FDR preespecificado</strong>.
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Embudo Comparativo de Proceso de Cobranza -->
+    <h2>2. Embudo Operativo de Cobranza (Humanos vs. IA)</h2>
+    <div class="funnel-box">
+        <div class="funnel-grid">
+            <div class="funnel-step">
+                <h4>Paso 1: Contactabilidad</h4>
+                <div class="funnel-bars">
+                    <div class="f-bar-row"><span>Humano</span><span>98.0% (49/50)</span></div>
+                    <div class="f-bar-track"><div class="f-fill-h" style="width:98.0%;"></div></div>
+                    <div class="f-bar-row"><span>IA</span><span>92.0% (46/50)</span></div>
+                    <div class="f-bar-track"><div class="f-fill-ia" style="width:92.0%;"></div></div>
+                </div>
+                <div style="font-size:9px; color:var(--text-muted); margin-top:4px;">Fisher p = 0.3622 (Sin diferencia)</div>
+            </div>
+            <div class="funnel-step">
+                <h4>Paso 2: Apertura de Oferta</h4>
+                <div class="funnel-bars">
+                    <div class="f-bar-row"><span>Humano</span><span>52.0% (26/50)</span></div>
+                    <div class="f-bar-track"><div class="f-fill-h" style="width:52.0%;"></div></div>
+                    <div class="f-bar-row"><span>IA</span><span>74.0% (37/50)</span></div>
+                    <div class="f-bar-track"><div class="f-fill-ia" style="width:74.0%;"></div></div>
+                </div>
+                <div style="font-size:9px; color:var(--text-muted); margin-top:4px;">Chi2 p = 0.0383 · FDR p_adj = 0.0639</div>
+            </div>
+            <div class="funnel-step">
+                <h4>Paso 3: Cierre de Acuerdo</h4>
+                <div class="funnel-bars">
+                    <div class="f-bar-row"><span>Humano</span><span>14.0% (7/50)</span></div>
+                    <div class="f-bar-track"><div class="f-fill-h" style="width:14.000000000000002%;"></div></div>
+                    <div class="f-bar-row"><span>IA</span><span>4.0% (2/50)</span></div>
+                    <div class="f-bar-track"><div class="f-fill-ia" style="width:4.0%;"></div></div>
+                </div>
+                <div style="font-size:9px; color:var(--text-muted); margin-top:4px;">Fisher p = 0.1595 (No significativo)</div>
+            </div>
+        </div>
+        <div class="funnel-note">
+            Nota de consistencia: Los eventos del embudo no son estrictamente secuenciales a nivel individual; reflejan tasas globales observadas sobre los 50 casos de cada grupo.
+        </div>
+    </div>
+
+    <!-- 4. Métrica Secundaria Clave Condicional -->
+    <div class="conditional-box">
+        <div class="cond-left">
+            <h4>Métrica Secundaria Condicional: Conversión de Oferta a Acuerdo</h4>
+            <p>Entre las llamadas en las que se formuló una oferta formal (26 en humanos y 37 en IA), la proporción observada que culminó en acuerdo fue mayor en humanos.</p>
+        </div>
+        <div class="cond-stat">
+            <strong>26.9% Humano vs. 5.4% IA</strong>
+            <small>Δ = +21.5 pp · Fisher p = 0.0263 · Cohen's h = 0.622</small>
+        </div>
+    </div>
+
+    <!-- Salto de página estricto para impresión A4 -->
+    <div class="page-break"></div>
+
+    <!-- 5. Métricas Secundarias de Soporte -->
+    <h2>3. Batería de Métricas Secundarias e Indicadores Operativos</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dimensión Operativa</th>
+                    <th>Humano (N=50)</th>
+                    <th>IA (N=50)</th>
+                    <th>Diferencia</th>
+                    <th>IC 95% Diferencia</th>
+                    <th>Prueba Estadística</th>
+                    <th>Estado de Inferencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Ofrecimiento de Descuentos</strong></td>
+                    <td>44.0% (22/50)</td>
+                    <td>70.0% (35/50)</td>
+                    <td><strong>-26.0 pp</strong></td>
+                    <td>[-44.7 pp, -7.3 pp]</td>
+                    <td>Chi2 p = 0.0154 (Yates)</td>
+                    <td><span class="badge badge-sig">FDR Significativo (p_adj = 0.0385)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Negociación de Alternativas</strong></td>
+                    <td>48.0% (24/50)</td>
+                    <td>70.0% (35/50)</td>
+                    <td><strong>-22.0 pp</strong></td>
+                    <td>[-40.8 pp, -3.2 pp]</td>
+                    <td>Chi2 p = 0.0420 (Yates)</td>
+                    <td><span class="badge badge-fdr-fail">No supera FDR (p_adj = 0.0639)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Duración Acústica de Llamada</strong></td>
+                    <td>Mdn: 168s (Med: 237s)</td>
+                    <td>Mdn: 148s (Med: 218s)</td>
+                    <td><strong>+19.5 s</strong> (Mdn)</td>
+                    <td>IQR H: 155s · IA: 221s</td>
+                    <td>Mann-Whitney U, p = 0.3276</td>
+                    <td><span class="badge badge-ns">Sin diferencia estadísticamente sustentable</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Inconsistencia Aritmética en Diálogo</strong></td>
+                    <td>4.0% (2/50)</td>
+                    <td>10.0% (5/50)</td>
+                    <td><strong>-6.0 pp</strong></td>
+                    <td>-</td>
+                    <td>Fisher bilateral p = 0.4360</td>
+                    <td><span class="badge badge-ns">Sin diferencia significativa (Señal de QA)</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 6. Hallazgos y Recomendaciones de Negocio -->
+    <h2>4. Hallazgos Analíticos y Recomendación Estratégica</h2>
+    <ul class="bullets">
+        <li><strong>Adherencia vs. Cierre:</strong> La IA presenta ofertas con mayor frecuencia en la muestra observada (74% vs. 52%), pero esta mayor frecuencia no se tradujo en una mayor tasa global de acuerdos formalizados (4% vs. 14%, p = 0.1595).</li>
+        <li><strong>Receptividad y Conversación:</strong> En las llamadas humanas se registró una proporción significativamente mayor de deudores manifestando intención espontánea de pago (24% vs. 2%, p_adj = 0.0147), consistente con una mayor interacción cualitativa del asesor.</li>
+        <li><strong>Conversión en Submuestra con Oferta:</strong> Al aislar las llamadas donde hubo oferta formal, la conversión observada a acuerdo fue de 26.9% (7/26) en humanos frente a 5.4% (2/37) en IA (p = 0.0263). Si bien la razón descriptiva es cercana a 5:1, corresponde a una comparación condicional que no permite inferir causalidad.</li>
+        <li><strong>Uso de Incentivos:</strong> La IA ofreció descuentos con mayor frecuencia (70% vs. 44%, p_adj = 0.0385), confirmando un uso sistemático de quitas en su guion algorítmico.</li>
+        <li><strong>Recomendación de Diseño (Modelo Híbrido Experimental):</strong> Los resultados justifican <em>explorar</em> un esquema híbrido que combine la consistencia operativa de la IA para barrido de contacto y apertura de ofertas, con intervención de negociadores humanos especializados para situaciones complejas o clientes con intención no concretada. Esta recomendación debe validarse mediante experimentación controlada.</li>
+    </ul>
+
+    <!-- 7. Limitaciones del Estudio -->
+    <h2>5. Limitaciones Metodológicas</h2>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:6px 10px; font-size:10px; color:var(--text-muted);">
+        <strong>Alcance del estudio:</strong>
+        (1) Muestra acotada a 100 llamadas (50 por grupo), con potencia estadística limitada para confirmar diferencias en eventos de baja tasa base como acuerdos.
+        (2) Estudio estrictamente observacional: no existió asignación aleatoria controlada de clientes; diferencias de cartera podrían actuar como confusores.
+        (3) La diarización es heurística sobre transcripción ASR de canal único.
+        (4) Las variables monetarias presentaron más del 78% de valores ausentes y fueron excluidas del análisis inferencial.
+    </div>
+
+    <footer>
+        <div>Creceré AI · Prueba Técnica Data Scientist / Analyst · Fuente: <code>data/processed/dataset_final.csv</code></div>
+        <div>Anexo Técnico detallado y código auditable disponibles en el repositorio.</div>
+    </footer>
+</div>
+</body>
+</html>

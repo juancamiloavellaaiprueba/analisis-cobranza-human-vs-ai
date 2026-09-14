@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anexo Técnico: Auditoría Estadística y Metodológica (Humanos vs IA)</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-card: #334155;
+            --primary: #38bdf8;
+            --accent: #818cf8;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.55; padding: 2.5rem 2rem; font-size: 0.9rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+        h1 { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 0.4rem; }
+        .subtitle { font-size: 1rem; color: var(--text-muted); }
+
+        .meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.5rem; }
+        .meta-card { background: var(--surface); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .meta-title { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+        .meta-val { font-size: 1.2rem; font-weight: 800; color: #fff; margin-top: 0.2rem; }
+
+        h2 { font-size: 1.25rem; color: #fff; margin: 2rem 0 0.8rem 0; border-left: 4px solid var(--accent); padding-left: 0.6rem; }
+        p, li { color: #cbd5e1; margin-bottom: 0.6rem; font-size: 0.88rem; }
+        ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+
+        .table-wrap { overflow-x: auto; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); margin: 1rem 0 1.5rem 0; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.84rem; }
+        th { background: #0f172a; color: var(--primary); padding: 0.75rem 0.85rem; font-weight: 700; border-bottom: 1px solid var(--border); text-transform: uppercase; font-size: 0.75rem; }
+        td { padding: 0.7rem 0.85rem; border-bottom: 1px solid rgba(71, 85, 105, 0.4); vertical-align: middle; }
+        tr:hover { background: rgba(51, 65, 85, 0.3); }
+
+        .badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; }
+        .badge-sig { background: rgba(52, 211, 153, 0.15); color: var(--success); border: 1px solid var(--success); }
+        .badge-fdr-fail { background: rgba(251, 191, 36, 0.15); color: var(--warning); border: 1px solid var(--warning); }
+        .badge-ns { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); border: 1px solid var(--border); }
+
+        .card-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin: 1rem 0; }
+        footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>ANEXO TÉCNICO Y AUDITORÍA METODOLÓGICA COMPLETA</h1>
+        <div class="subtitle">Evaluación inferencial rigurosa, contraste de hipótesis, control de multiplicidad y análisis de potencia</div>
+        <div class="meta-grid">
+            <div class="meta-card">
+                <div class="meta-title">Muestra Total</div>
+                <div class="meta-val">100 llamadas (50H / 50IA)</div>
+            </div>
+            <div class="meta-card">
+                <div class="meta-title">Resultado Principal (Acuerdo)</div>
+                <div class="meta-val">14% H vs. 4% IA (p=0.1595)</div>
+            </div>
+            <div class="meta-card">
+                <div class="meta-title">Intención de Pago (FDR Sig)</div>
+                <div class="meta-val">24% H vs. 2% IA (p=0.0029)</div>
+            </div>
+            <div class="meta-card">
+                <div class="meta-title">Apertura de Oferta</div>
+                <div class="meta-val">52% H vs. 74% IA (p=0.0383)</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. Criterios de Selección de Pruebas -->
+    <h2>1. Reglas de Decisión y Criterios Inferenciales</h2>
+    <div class="card-box">
+        <p><strong>Variables Binarias (Tablas 2x2):</strong></p>
+        <ul>
+            <li>Si cualquier frecuencia esperada en celda $E_{ij} = (R_i \\cdot C_j) / N < 5.0$: Se aplica la <strong>Prueba Exacta de Fisher bilateral</strong> mediante distribución hipergeométrica. Utilizada en: <code>acuerdo_pago</code> ($\min E_{ij} = 4.50$), <code>contactabilidad</code> ($\min E_{ij} = 2.50$), <code>inconsistencia_matematica_acuerdo</code> ($\min E_{ij} = 3.50$) y <code>conv_oferta_a_acuerdo</code> ($\min E_{ij} = 3.71$).</li>
+            <li>Si todas las frecuencias esperadas son $\ge 5.0$: Se aplica <strong>Chi-cuadrado con corrección de continuidad de Yates</strong> ($df=1$). Utilizada en: <code>intencion_pago</code> ($\min E_{ij} = 6.50$), <code>oferta_pago</code> ($\min E_{ij} = 18.50$), <code>tiene_descuento</code> ($\min E_{ij} = 21.50$) y <code>negociacion</code> ($\min E_{ij} = 20.50$).</li>
+        </ul>
+        <p><strong>Variables Continuas / Discretas Asimétricas:</strong></p>
+        <ul>
+            <li>Dado que <code>duracion_segundos</code> ($\text{skew} = 2.16$ en H, $1.83$ en IA) y <code>num_propuestas_pago</code> no cumplen normalidad, se aplica la prueba no paramétrica de <strong>Mann-Whitney U</strong> reportando medianas y correlación biserial por rangos $r$.</li>
+        </ul>
+    </div>
+
+    <!-- 2. Tabla Inferencial Completa -->
+    <h2>2. Matriz Inferencial de Hipótesis Preespecificadas</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable Analizada</th>
+                    <th>Humano (N=50)</th>
+                    <th>IA (N=50)</th>
+                    <th>Diferencia (H − IA)</th>
+                    <th>IC 95% Diferencia</th>
+                    <th>Prueba Utilizada</th>
+                    <th>p-valor sin ajustar</th>
+                    <th>Tamaño del Efecto</th>
+                    <th>Estado de Decisión</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Principal -->
+                <tr style="background:rgba(56, 189, 248, 0.05);">
+                    <td><strong>acuerdo_pago</strong><br><small style="color:var(--text-muted);">Resultado Principal</small></td>
+                    <td>14.0% (7/50)</td>
+                    <td>4.0% (2/50)</td>
+                    <td><strong>+10.0 pp</strong></td>
+                    <td>[-1.0 pp, 21.0 pp]</td>
+                    <td>Fisher bilateral ($\min E=4.5$)</td>
+                    <td><strong>0.1595</strong></td>
+                    <td>Cohen's h = 0.364</td>
+                    <td><span class="badge badge-ns">No se rechaza H0</span></td>
+                </tr>
+                <!-- Señales secundarias -->
+                <tr>
+                    <td><strong>intencion_pago</strong><br><small style="color:var(--text-muted);">Actitud cliente (Secundaria)</small></td>
+                    <td>24.0% (12/50)</td>
+                    <td>2.0% (1/50)</td>
+                    <td><strong>+22.0 pp</strong></td>
+                    <td>[9.5 pp, 34.5 pp]</td>
+                    <td>Chi2 Yates ($\min E=6.5$)</td>
+                    <td><strong>0.0029</strong></td>
+                    <td>Cohen's h = 0.740</td>
+                    <td><span class="badge badge-sig">Rechaza H0 (FDR Sig)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>oferta_pago</strong><br><small style="color:var(--text-muted);">Adherencia agente (Secundaria)</small></td>
+                    <td>52.0% (26/50)</td>
+                    <td>74.0% (37/50)</td>
+                    <td><strong>-22.0 pp</strong></td>
+                    <td>[-40.4 pp, -3.6 pp]</td>
+                    <td>Chi2 Yates ($\min E=18.5$)</td>
+                    <td><strong>0.0383</strong></td>
+                    <td>Cohen's h = 0.461</td>
+                    <td><span class="badge badge-fdr-fail">Marginal (No supera FDR)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>tiene_descuento</strong><br><small style="color:var(--text-muted);">Estrategia (Secundaria)</small></td>
+                    <td>44.0% (22/50)</td>
+                    <td>70.0% (35/50)</td>
+                    <td><strong>-26.0 pp</strong></td>
+                    <td>[-44.7 pp, -7.3 pp]</td>
+                    <td>Chi2 Yates ($\min E=21.5$)</td>
+                    <td><strong>0.0154</strong></td>
+                    <td>Cohen's h = 0.532</td>
+                    <td><span class="badge badge-sig">Rechaza H0 (FDR Sig)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>negociacion</strong><br><small style="color:var(--text-muted);">Interacción (Secundaria)</small></td>
+                    <td>48.0% (24/50)</td>
+                    <td>70.0% (35/50)</td>
+                    <td><strong>-22.0 pp</strong></td>
+                    <td>[-40.8 pp, -3.2 pp]</td>
+                    <td>Chi2 Yates ($\min E=20.5$)</td>
+                    <td><strong>0.0420</strong></td>
+                    <td>Cohen's h = 0.452</td>
+                    <td><span class="badge badge-fdr-fail">Marginal (No supera FDR)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>num_propuestas_pago</strong><br><small style="color:var(--text-muted);">Propuestas (Secundaria)</small></td>
+                    <td>Mdn: 1 (Med: 1.0)</td>
+                    <td>Mdn: 2 (Med: 1.4)</td>
+                    <td><strong>-1.0 prop.</strong></td>
+                    <td>IQR H: 2.0 · IA: 1.8</td>
+                    <td>Mann-Whitney U</td>
+                    <td><strong>0.0490</strong></td>
+                    <td>Rank-biserial r = -0.229</td>
+                    <td><span class="badge badge-fdr-fail">Marginal (No supera FDR)</span></td>
+                </tr>
+                <!-- Condicional -->
+                <tr style="background:rgba(129, 140, 248, 0.05);">
+                    <td><strong>conv_oferta_a_acuerdo</strong><br><small style="color:var(--text-muted);">Secundaria Condicional</small></td>
+                    <td>26.9% (7/26)</td>
+                    <td>5.4% (2/37)</td>
+                    <td><strong>+21.5 pp</strong></td>
+                    <td>[3.0 pp, 40.1 pp]</td>
+                    <td>Fisher bilateral ($\min E=3.7$)</td>
+                    <td><strong>0.0263</strong></td>
+                    <td>Cohen's h = 0.622</td>
+                    <td><span class="badge badge-sig">Sig en Submuestra (Condicional)</span></td>
+                </tr>
+                <!-- Operacional / No sig -->
+                <tr>
+                    <td><strong>duracion_segundos</strong><br><small style="color:var(--text-muted);">Tiempo (Secundaria)</small></td>
+                    <td>Mdn: 168s (Med: 237s)</td>
+                    <td>Mdn: 148s (Med: 218s)</td>
+                    <td><strong>+19.5 s</strong></td>
+                    <td>IQR H: 155s · IA: 221s</td>
+                    <td>Mann-Whitney U</td>
+                    <td><strong>0.3276</strong></td>
+                    <td>Rank-biserial r = 0.114</td>
+                    <td><span class="badge badge-ns">Sin diferencia</span></td>
+                </tr>
+                <tr>
+                    <td><strong>contactabilidad</strong><br><small style="color:var(--text-muted);">Filtro inicial (Exploratoria)</small></td>
+                    <td>98.0% (49/50)</td>
+                    <td>92.0% (46/50)</td>
+                    <td><strong>+6.0 pp</strong></td>
+                    <td>[0.0 pp, ...]</td>
+                    <td>Fisher bilateral ($\min E=2.5$)</td>
+                    <td><strong>0.3622</strong></td>
+                    <td>Cohen's h = 0.290</td>
+                    <td><span class="badge badge-ns">Sin diferencia</span></td>
+                </tr>
+                <tr>
+                    <td><strong>inconsistencia_matematica</strong><br><small style="color:var(--text-muted);">QA de diálogo (Secundaria)</small></td>
+                    <td>4.0% (2/50)</td>
+                    <td>10.0% (5/50)</td>
+                    <td><strong>-6.0 pp</strong></td>
+                    <td>-</td>
+                    <td>Fisher bilateral ($\min E=3.5$)</td>
+                    <td><strong>0.4360</strong></td>
+                    <td>Cohen's h = 0.241</td>
+                    <td><span class="badge badge-ns">Sin diferencia</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. Control de Multiplicidad FDR -->
+    <h2>3. Análisis de Multiplicidad: Control FDR de Benjamini-Hochberg</h2>
+    <div class="card-box">
+        <p>Se definió una estructura jerárquica de dos familias para evitar inflar la tasa de descubrimientos falsos:</p>
+        <ul>
+            <li><strong>Familia Principal (1 hipótesis):</strong> <code>acuerdo_pago</code>. Al ser el objetivo primario singular preespecificado, no se ajusta por multiplicidad ($p = 0.1595$, No significativo).</li>
+            <li><strong>Familia Secundaria (5 hipótesis, $q = 0.05$):</strong> Se evaluaron las 5 variables de proceso simultáneas mediante Benjamini-Hochberg:</li>
+        </ul>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rango ($k$)</th>
+                        <th>Variable</th>
+                        <th>p-valor sin ajustar</th>
+                        <th>Umbral Crítico ($k/5 \	imes 0.05$)</th>
+                        <th>p-valor ajustado ($p_{\	ext{adj}}$)</th>
+                        <th>Decisión bajo FDR ($q=0.05$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>intencion_pago</strong></td>
+                        <td>0.00294</td>
+                        <td>0.0100</td>
+                        <td><strong>0.0147</strong></td>
+                        <td><span class="badge badge-sig">Rechaza H0 (Significativo)</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>tiene_descuento</strong></td>
+                        <td>0.01536</td>
+                        <td>0.0200</td>
+                        <td><strong>0.0385</strong></td>
+                        <td><span class="badge badge-sig">Rechaza H0 (Significativo)</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>oferta_pago</strong></td>
+                        <td>0.03834</td>
+                        <td>0.0300</td>
+                        <td><strong>0.0639</strong></td>
+                        <td><span class="badge badge-fdr-fail">No rechaza H0 (Marginal)</span></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>negociacion</strong></td>
+                        <td>0.04203</td>
+                        <td>0.0400</td>
+                        <td><strong>0.0639</strong></td>
+                        <td><span class="badge badge-fdr-fail">No rechaza H0 (Marginal)</span></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><strong>num_propuestas_pago</strong></td>
+                        <td>0.04905</td>
+                        <td>0.0500</td>
+                        <td><strong>0.0639</strong></td>
+                        <td><span class="badge badge-fdr-fail">No rechaza H0 (Marginal)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="font-size:0.8rem; color:var(--text-muted);">
+            Conclusión metodológica: Solo <code>intencion_pago</code> y <code>tiene_descuento</code> sobreviven al control estricto de descubrimientos falsos. Las variables <code>oferta_pago</code>, <code>negociacion</code> y <code>num_propuestas_pago</code> poseen significancia univariada clásica ($p < 0.05$), pero quedan en el rango marginal ($p_{\	ext{adj}} \pprox 0.064$) al controlar la familia secundaria.
+        </p>
+    </div>
+
+    <!-- 4. Análisis de Potencia Estadística -->
+    <h2>4. Análisis de Potencia Estadística y Tamaño Muestral</h2>
+    <div class="card-box">
+        <p>Para contrastar una diferencia poblacional real de $14\%$ frente a $4\%$ ($p_1 = 0.14$, $p_2 = 0.04$, $\lpha = 0.05$ bilateral, Potencia objetivo $= 0.80$):</p>
+        <ul>
+            <li><strong>Tamaño muestral requerido:</strong>
+                <ul>
+                    <li>Aproximación normal estándar asintótica: $n \pprox 128$ por grupo ($N = 256$ llamadas).</li>
+                    <li>Con corrección por continuidad de Fleiss (1981): $n \pprox 138$ por grupo ($N = 276$ llamadas).</li>
+                    <li>Con corrección de Casagrande, Pike & Smith (1978): $n \pprox 147$ por grupo ($N = 294$ llamadas).</li>
+                </ul>
+            </li>
+            <li><strong>Potencia estadística con $n = 50$ por grupo:</strong>
+                <ul>
+                    <li>Bajo aproximación asintótica: $\pprox 41.44\%$.</li>
+                    <li>Bajo la distribución exacta hipergeométrica de Fisher (sumando todas las tablas $2 \	imes 2$ binomiales que rechazan $H_0$ a $\lpha=0.05$): <strong>$26.14\%$</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Interpretación rigurosa:</strong> La muestra observada de 100 llamadas cuenta con potencia estadística limitada para confirmar diferencias en eventos de baja frecuencia como acuerdos. Esto no valida que humanos e IA sean equivalentes, sino que delimita la capacidad de detección del diseño muestral disponible.</li>
+        </ul>
+    </div>
+
+    <!-- 5. Tabla de Interpretación Permitida vs No Permitida -->
+    <h2>5. Guía de Redacción: Interpretación Permitida vs. NO Permitida</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dimensión</th>
+                    <th>Evidencia Estadística</th>
+                    <th>Interpretación Permitida</th>
+                    <th>Interpretación NO Permitida (Causal / Hype)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Acuerdos de Pago</strong></td>
+                    <td>14% H vs. 4% IA (Δ = +10 pp). Fisher bilateral p = 0.1595.</td>
+                    <td>Se observa una tasa mayor en humanos (+10 pp), pero <strong>no se rechaza H0 al 5%</strong>. La muestra no permite confirmar estadísticamente una diferencia en acuerdos finales.</td>
+                    <td>❌ "Los humanos son significativamente mejores cobrando."<br>❌ "La IA demostró ser inferior."<br>❌ "No existe diferencia entre canales."</td>
+                </tr>
+                <tr>
+                    <td><strong>Intención de Pago</strong></td>
+                    <td>24% H vs. 2% IA (Δ = +22 pp). Chi2 p = 0.0029, FDR p_adj = 0.0147.</td>
+                    <td>Se observó una proporción significativamente mayor de llamadas con intención verbal de pago manifestada por el deudor en el grupo humano (actitud declarada).</td>
+                    <td>❌ "Los humanos causan mayor intención de pago."<br>❌ "Demuestra la superioridad persuasiva del humano."<br>❌ "Es una garantía de recuperación financiera."</td>
+                </tr>
+                <tr>
+                    <td><strong>Oferta de Pago</strong></td>
+                    <td>52% H vs. 74% IA (Δ = -22 pp). Chi2 p = 0.0383, FDR p_adj = 0.0639.</td>
+                    <td>La IA presentó ofertas formales con mayor frecuencia en la muestra observada (74% vs. 52%). La diferencia es significativa sin ajuste, pero no supera el control FDR preespecificado.</td>
+                    <td>❌ "La IA es significativamente mejor."<br>❌ "La IA domina operativamente al humano."<br>❌ "El humano es negligente con las ofertas."</td>
+                </tr>
+                <tr>
+                    <td><strong>Conversión Oferta $\	o$ Acuerdo</strong></td>
+                    <td>26.9% H (7/26) vs. 5.4% IA (2/37). Fisher p = 0.0263 en submuestra.</td>
+                    <td>Entre las llamadas en las que se formuló una oferta formal, la proporción que terminó en acuerdo fue mayor en humanos (métrica secundaria condicional).</td>
+                    <td>❌ "El humano es 5 veces más efectivo negociando."<br>❌ "La IA fracasa."<br>❌ "La negociación de la IA es estéril."</td>
+                </tr>
+                <tr>
+                    <td><strong>Ofrecimiento de Descuentos</strong></td>
+                    <td>44% H vs. 70% IA (Δ = -26 pp). Chi2 p = 0.0154, FDR p_adj = 0.0385.</td>
+                    <td>La IA ofreció descuentos con mayor frecuencia (70% vs. 44%), pero esta mayor utilización del incentivo no se acompañó de una mayor tasa global de acuerdos en la muestra.</td>
+                    <td>❌ "La IA quema el descuento."<br>❌ "El bot malgasta las quitas bancarias."</td>
+                </tr>
+                <tr>
+                    <td><strong>Duración de Llamadas</strong></td>
+                    <td>Mediana 168.0s H vs. 148.5s IA. Mann-Whitney U, p = 0.3276.</td>
+                    <td>No se encontró evidencia estadística de diferencia en la duración de las llamadas entre ambos canales.</td>
+                    <td>❌ "La IA hace llamadas significativamente más cortas y eficientes."<br>❌ "Los humanos desperdician tiempo."</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 6. Variables Excluidas y Justificación -->
+    <h2>6. Inventario de Variables Excluidas de la Inferencia</h2>
+    <div class="card-box">
+        <ul>
+            <li><code>monto_acordado</code> (98% missing), <code>monto_descuento</code> (98% missing), <code>monto_propuesto</code> (83% missing), <code>monto_cuota</code> (80% missing), <code>monto_deuda</code> (78% missing y outlier de $1.2B en humanos): Excluidas por missing masivo, potencia nula y riesgo severo de sesgo de selección.</li>
+            <li><code>objecion_resuelta</code>: Excluida por varianza cero (0% en ambos grupos).</li>
+            <li><code>aceptacion_pago</code>: Excluida por tamaño muestral positivo nulo (solo 2 casos positivos en 100 llamadas, 1 H y 1 IA).</li>
+            <li><code>manejo_objecion</code> (10% vs. 10%) y <code>dificultad_pago</code> (8% vs. 8%): Excluidas del reporte por tasas idénticas que no aportan contraste.</li>
+            <li>Variables de control interno del NLP (<code>confianza_nlp</code>, <code>control_calidad</code>, <code>requiere_revision</code>, <code>evidencia_*</code>): Miden la calidad técnica del extractor, no el desempeño del agente.</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>Anexo Técnico Metodológico · Proyecto NLP de Cobranza Bancaria · Creceré AI &copy; 2026</p>
+    </footer>
+</div>
+</body>
+</html>
